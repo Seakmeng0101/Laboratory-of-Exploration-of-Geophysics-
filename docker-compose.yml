@@ -1,0 +1,54 @@
+services:
+  db:
+    image: mysql:8-debian
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "myuser", "-pmypassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./Backend
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      RESEND_API_KEY: re_4Bf16usQ_9srqpKFvWLA4gM5gXu8NZc95
+      FRONTEND_URL: http://localhost:3000
+      DATABASE_URL: mysql://myuser:mypassword@db:3306/mydb
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: mydb
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      JWT_ACCESS_SECRET: your_access_secret
+      JWT_REFRESH_SECRET: your_refresh_secret
+      NODE_ENV: development
+      GMAIL_USER: soemseakmeng2@gmail.com
+      GMAIL_PASSWORD: fxzi vdya vjdv lbey
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./Frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:4000
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
