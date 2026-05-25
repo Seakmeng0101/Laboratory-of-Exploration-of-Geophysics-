@@ -1,10 +1,13 @@
-import { Button } from 'flowbite-react';
+import { BrowserRouter, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-    <div className="p-4">
-      <Button>Click me</Button>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
