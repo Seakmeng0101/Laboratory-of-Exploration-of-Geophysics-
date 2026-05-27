@@ -23,7 +23,6 @@ services:
     ports:
       - "4000:4000"
     environment:
-      RESEND_API_KEY: re_4Bf16usQ_9srqpKFvWLA4gM5gXu8NZc95
       FRONTEND_URL: http://localhost:3000
       DATABASE_URL: mysql://myuser:mypassword@db:3306/mydb
       DB_HOST: db
