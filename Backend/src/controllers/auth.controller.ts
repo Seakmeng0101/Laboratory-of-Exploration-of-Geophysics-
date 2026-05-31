@@ -212,9 +212,9 @@ export async function forgotPassword(req: AuthRequest, res: Response, next: Next
 
 export async function resetPassword(req: AuthRequest, res: Response, next: NextFunction) {
   try {
-    const { token, password, confirmPassword } = req.body;
-    if (!token || !password || !confirmPassword) {
-      res.status(400).json({ message: 'token, password and confirmPassword are required' });
+    const { email, password, confirmPassword } = req.body;
+    if (!email || !password || !confirmPassword) {
+      res.status(400).json({ message: 'email, password and confirmPassword are required' });
       return;
     }
 
@@ -223,9 +223,9 @@ export async function resetPassword(req: AuthRequest, res: Response, next: NextF
       return;
     }
 
-    const user = await UserModel.findUserByResetToken(token);
+    const user = await UserModel.findUserByEmail(email.toLowerCase());
     if (!user) {
-      res.status(400).json({ message: 'Invalid or expired reset token' });
+      res.status(404).json({ message: 'User not found' });
       return;
     }
 
@@ -233,6 +233,32 @@ export async function resetPassword(req: AuthRequest, res: Response, next: NextF
     await UserModel.clearResetToken(user.id, hashed);
 
     res.status(200).json({ message: 'Password reset successfully' });
+  } catch (err) {
+    next(err);
+  }
+}
+export async function resendOtp(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      res.status(400).json({ message: 'email is required' });
+      return;
+    }
+
+    const user = await UserModel.findUserByEmail(email.toLowerCase());
+    if (!user || !user.is_active) {
+      res.status(401).json({ message: 'Invalid credentials' });
+      return;
+    }
+
+    const otp     = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = new Date(Date.now() + 5 * 60 * 1000);
+    const expiresAt = expires.toISOString().slice(0, 19).replace('T', ' ');
+
+    await UserModel.saveOtp(user.id, otp, expiresAt);
+    await sendOtpEmail(user.email, otp);
+
+    res.status(200).json({ message: 'OTP resent to your email' });
   } catch (err) {
     next(err);
   }

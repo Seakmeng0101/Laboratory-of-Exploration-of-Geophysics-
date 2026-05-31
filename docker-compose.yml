@@ -22,6 +22,8 @@ services:
     restart: always
     ports:
       - "4000:4000"
+    volumes:
+      - ./Backend/uploads:/app/uploads  
     environment:
       FRONTEND_URL: http://localhost:3000
       DATABASE_URL: mysql://myuser:mypassword@db:3306/mydb

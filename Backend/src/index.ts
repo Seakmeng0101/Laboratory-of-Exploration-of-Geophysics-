@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import authRouter from './routes/auth.route';
@@ -13,6 +14,7 @@ import teamContactRouter from './routes/team_contact.routes';
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 

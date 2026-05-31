@@ -55,7 +55,7 @@ const NavItem = ({ label, path, items }: NavItemProps) => {
       <button
         onClick={() => setOpen((v) => !v)}
         className={`flex items-center gap-1 py-1.5 px-4 rounded-md w-full md:w-auto font-semibold text-sm transition-colors duration-150 ${
-          isActive
+          isActive 
             ? 'bg-blue-600 text-white'
             : 'text-gray-700 hover:bg-gray-100 hover:text-blue-900'
         }`}
