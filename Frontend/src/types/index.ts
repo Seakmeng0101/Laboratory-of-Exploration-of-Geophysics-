@@ -12,8 +12,9 @@ export interface Team {
   id: string;
   name: string;
   email: string;
-  position: string;
-  image: string | null;
+  role: string;
+  is_active: number;
+  created_at: string;
 }
 
 export interface Service {

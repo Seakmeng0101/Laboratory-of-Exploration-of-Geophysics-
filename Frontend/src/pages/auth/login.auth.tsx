@@ -15,19 +15,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      await login(email, password);
-      localStorage.setItem('pendingEmail', email);
-      navigate('/verify-otp');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+  try {
+    const res = await login(email, password);
+    console.log('login response:', res);
+    sessionStorage.setItem('pendingEmail', email);
+    console.log('pendingEmail set:', sessionStorage.getItem('pendingEmail'));
+    navigate('/verify-otp');
+  } catch (err: any) {
+    console.log('login error:', err);
+    console.log('error response:', err.response?.data);
+    setError(err.response?.data?.message || 'Login failed');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

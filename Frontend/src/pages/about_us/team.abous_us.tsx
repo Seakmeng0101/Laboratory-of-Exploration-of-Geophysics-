@@ -62,8 +62,8 @@ const AboutUs = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const blobsRef = useRef<Blob[]>([]);
   const paletteIdxRef = useRef(0);
-  const animRef = useRef<number>(0);
-
+  const animRef = useRef<number>(0)
+  const [showAddTeam, setShowAddTeam] = useState(false);
   // const role = localStorage.getItem('role') || 'visitor';
   const role = 'admin'; 
 
@@ -234,11 +234,14 @@ const AboutUs = () => {
 
   {(role === 'admin' || role === 'moderator') && (
     <button
-      onClick={() => activeTab === 'member' && setShowAddMember(true)}
-      className="mb-2 px-6 py-2 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition"
-    >
-      {activeTab === 'member' ? '+ Add member' : '+ Add team'}
-    </button>
+  onClick={() => {
+    if (activeTab === 'member') setShowAddMember(true);
+    if (activeTab === 'team') setShowAddTeam(true);
+  }}
+  className="mb-2 px-6 py-2 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition"
+>
+  {activeTab === 'member' ? '+ Add member' : '+ Add team'}
+</button>
   )}
 </div>
 
@@ -246,7 +249,9 @@ const AboutUs = () => {
 {activeTab === 'member' && (
   <MemberList role={role} showModal={showAddMember} onModalClose={() => setShowAddMember(false)} />
 )}
-{activeTab === 'team' && role === 'admin' && <TeamList />}
+{activeTab === 'team' && role === 'admin' && (
+  <TeamList showModal={showAddTeam} onModalClose={() => setShowAddTeam(false)} />
+)}
 
     </div>
     

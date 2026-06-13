@@ -9,7 +9,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 
 // Only allows access if pendingEmail exists (set after login)
 const ProtectedOtp = () => {
-  const pendingEmail = localStorage.getItem('pendingEmail');
+  const pendingEmail = sessionStorage.getItem('pendingEmail');
   return pendingEmail ? <VerifyOtp /> : <Navigate to="/login" replace />;
 };
 

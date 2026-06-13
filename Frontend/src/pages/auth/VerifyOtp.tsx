@@ -12,7 +12,7 @@ const VerifyOtp = () => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const navigate = useNavigate();
 
-  const email = localStorage.getItem('pendingEmail') || '';
+  const email = sessionStorage.getItem('pendingEmail') || '';
 
   const maskEmail = (email: string) => {
     const [local, domain] = email.split('@');
@@ -55,10 +55,11 @@ const VerifyOtp = () => {
     try {
       const res = await verifyOtp(otp);
       const { accessToken, refreshToken } = res.data;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      sessionStorage.setItem('accessToken', accessToken);
+      sessionStorage.setItem('refreshToken', refreshToken);
       const meRes = await getMe();
-      localStorage.setItem('role', meRes.data.user.role);
+      sessionStorage.setItem('role', meRes.data.user.role);
+      sessionStorage.removeItem('pendingEmail');
       navigate('/');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Invalid OTP');
