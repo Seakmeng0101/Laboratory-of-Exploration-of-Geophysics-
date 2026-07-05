@@ -6,7 +6,8 @@ import Login from './pages/auth/login.auth';
 import VerifyOtp from './pages/auth/VerifyOtp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
-
+import EquipmentPage from './pages/about_us/Equipment';
+import ServicesPage from './pages/services/Services';
 // Only allows access if pendingEmail exists (set after login)
 const ProtectedOtp = () => {
   const pendingEmail = sessionStorage.getItem('pendingEmail');
@@ -35,6 +36,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about/our-team" element={<AboutUs />} />
+              <Route path="/about/equipment" element={<EquipmentPage />} />
+              <Route path="/services" element={<ServicesPage />} />
             </Routes>
           </>
         } />

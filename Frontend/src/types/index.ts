@@ -38,6 +38,7 @@ export interface Equipment {
   model: string;
   capacity: string;
   image: string | null;
+  link: string | null;
 }
 
 export interface TeamContact {
