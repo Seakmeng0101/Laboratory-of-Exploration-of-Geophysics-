@@ -8,6 +8,8 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import EquipmentPage from './pages/about_us/Equipment';
 import ServicesPage from './pages/services/Services';
+import ContactPage from './pages/Contacts/ContactPage';
+import TeamContactPage from './pages/Contacts/TeamContactPage';
 // Only allows access if pendingEmail exists (set after login)
 const ProtectedOtp = () => {
   const pendingEmail = sessionStorage.getItem('pendingEmail');
@@ -38,6 +40,8 @@ function App() {
               <Route path="/about/our-team" element={<AboutUs />} />
               <Route path="/about/equipment" element={<EquipmentPage />} />
               <Route path="/services" element={<ServicesPage />} />
+              <Route path="/contact/messages" element={<ContactPage />} />
+              <Route path="/contact/team" element={<TeamContactPage />} />
             </Routes>
           </>
         } />
