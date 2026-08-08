@@ -40,8 +40,9 @@ function App() {
               <Route path="/about/our-team" element={<AboutUs />} />
               <Route path="/about/equipment" element={<EquipmentPage />} />
               <Route path="/services" element={<ServicesPage />} />
-              <Route path="/contact/messages" element={<ContactPage />} />
-              <Route path="/contact/team" element={<TeamContactPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/contact/messages" element={<Navigate to="/contact" replace />} />
+              <Route path="/contact/team" element={<Navigate to="/contact" replace />} />
             </Routes>
           </>
         } />
