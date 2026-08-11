@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { getAllMembers, createMember, updateMember, deleteMember } from '../../api/member.api';
 import { Member } from '../../types';
+import { useAuth } from '../../hooks/useAuth';
 
 interface Props {
   role: string;
@@ -64,8 +65,7 @@ const MemberList = ({ role, showModal, onModalClose }: Props) => {
   const [deleteTarget, setDeleteTarget] = useState<Member | null>(null);
 
   // Auth state
-  const isLoggedIn = !!sessionStorage.getItem('accessToken');
-  const canEdit = role === 'admin' || role === 'moderator';
+  const { isLoggedIn, canEdit } = useAuth();
   if (!isLoggedIn) {
   return <Navigate to="/login" replace />;
 }

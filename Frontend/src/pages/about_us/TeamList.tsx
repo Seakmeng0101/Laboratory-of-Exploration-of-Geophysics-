@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { getAllTeams, deleteTeam, registerModerator } from '../../api/team.api';
 import { Team } from '../../types';
+import { useAuth } from '../../hooks/useAuth';
 
 interface Props {
   showModal: boolean;
   onModalClose: () => void;
 }
-
+const { canEdit, role } = useAuth();
 const getRoleStyle = (role: string) => {
   const map: Record<string, { label: string; bg: string; color: string; border: string }> = {
     admin:     { label: 'Admin',     bg: '#EDE9FE', color: '#5B21B6', border: '#C4B5FD' },
@@ -51,15 +52,9 @@ const TeamList = ({ showModal, onModalClose }: Props) => {
   const [deletingId, setDeletingId]           = useState<string | null>(null);
   const [submitting, setSubmitting]           = useState(false);
   const [error, setError]                     = useState('');
-  const [form, setForm] = useState({
-    name: '', email: '', password: '', confirmPassword: '', role: 'moderator',
-  });
+  const { canEdit, role } = useAuth();
 
-  const isLoggedIn = !!sessionStorage.getItem('accessToken');
-  const role       = sessionStorage.getItem('role') || '';
-  const isAdmin    = role === 'admin';
-
-  if (!isLoggedIn) return <Navigate to="/login" replace />;
+  
 
   const fetchTeams = () => {
     setLoading(true);

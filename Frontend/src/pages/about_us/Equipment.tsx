@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getAllEquipments, createEquipment, updateEquipment, deleteEquipment } from '../../api/equipment.api';
 import { Equipment } from '../../types';
+import { useAuth } from '../../hooks/useAuth';
 
 const PER_PAGE = 4;
 
 const EquipmentPage = () => {
-  const role = sessionStorage.getItem('role') || 'visitor';
-  const canEdit = role === 'admin' || role === 'moderator';
+  const { canEdit, role } = useAuth();
 
   const [equipments, setEquipments] = useState<Equipment[]>([]);
   const [loading, setLoading] = useState(false);

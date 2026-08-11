@@ -6,10 +6,9 @@ import {
   deleteTeamContact,
 } from '../../api/TeamContact.api';
 import { TeamContact } from '../../types';
-
+import { useAuth } from '../../hooks/useAuth';
 const TeamContactPage = () => {
-  const role = sessionStorage.getItem('role') || 'visitor';
-  const canEdit = role === 'admin' || role === 'moderator';
+  const { canEdit, role } = useAuth();
 
   const [contacts, setContacts] = useState<TeamContact[]>([]);
   const [loadingContacts, setLoadingContacts] = useState(false);

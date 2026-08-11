@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import MemberList from './MemberList';
 import TeamList from './TeamList';
+import { useAuth } from '../../hooks/useAuth';
 
 const PALETTE = [
   { blob: [99, 102, 241], bg: [10, 10, 15] },
@@ -55,6 +56,7 @@ class Blob {
 }
 
 const AboutUs = () => {
+  const { canEdit, role } = useAuth();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [paletteIdx, setPaletteIdx] = useState(0);
   const [activeTab, setActiveTab] = useState<'member' | 'team'>('member');
@@ -64,9 +66,6 @@ const AboutUs = () => {
   const paletteIdxRef = useRef(0);
   const animRef = useRef<number>(0)
   const [showAddTeam, setShowAddTeam] = useState(false);
-  // const role = localStorage.getItem('role') || 'visitor';
-  const role = 'admin'; 
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });

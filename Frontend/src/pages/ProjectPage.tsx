@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllProjects, createProject, updateProject, deleteProject } from '../api/project.api';
 import { Project } from '../types';
+import { useAuth } from '../hooks/useAuth';
 
 const parseDescription = (desc: string[]): string[] => {
   try {
@@ -14,9 +15,7 @@ const parseDescription = (desc: string[]): string[] => {
 };
 
 const ProjectPage = () => {
-  const role = sessionStorage.getItem('role') || 'visitor';
-  const canEdit = role === 'admin' || role === 'moderator';
-
+  const { canEdit, role } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
 

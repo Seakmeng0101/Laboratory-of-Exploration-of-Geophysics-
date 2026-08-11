@@ -9,10 +9,10 @@ import {
 import { TeamContact } from '../../types';
 import contact_us from '../../assets/contact_us.webp';
 import Footer from '../../components/Footer';
+import { useAuth } from '../../hooks/useAuth';
 
 const ContactPage = () => {
-  const role = sessionStorage.getItem('role') || 'visitor';
-  const canEdit = role === 'admin' || role === 'moderator';
+  const { canEdit, role } = useAuth();
 
   const [tab, setTab] = useState<'message' | 'team'>('message');
 
