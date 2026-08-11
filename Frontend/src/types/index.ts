@@ -28,8 +28,10 @@ export interface Service {
 export interface Project {
   id: string;
   title: string;
+  company_title: string;
   description: string[];
-  image: string | null;
+  images: string[];
+  link?: string | null;
 }
 
 export interface Equipment {
