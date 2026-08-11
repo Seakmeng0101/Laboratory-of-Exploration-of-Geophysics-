@@ -198,22 +198,27 @@ const ProjectPage = () => {
 
                   {/* Image strip */}
                   {imgs.length > 0 && (
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: `repeat(${Math.min(imgs.length, 4)}, 1fr)`,
-                      width: '100%',
-                      flexShrink: 0,
-                    }}>
-                      {imgs.slice(0, 4).map((src, i) => (
-                        <img
-                          key={i}
-                          src={`http://localhost:4000/${src}`}
-                          alt={`project-${i}`}
-                          style={{ width: '100%', height: 'auto', display: 'block' }}
-                        />
-                      ))}
-                    </div>
-                  )}
+  <div
+    className={`grid gap-0.5 w-full ${
+      imgs.length === 1
+        ? 'grid-cols-1'
+        : imgs.length === 2
+        ? 'grid-cols-2'
+        : imgs.length === 3
+        ? 'grid-cols-2 sm:grid-cols-3'
+        : 'grid-cols-2 sm:grid-cols-4'
+    }`}
+  >
+    {imgs.slice(0, 4).map((src, i) => (
+      <img
+        key={i}
+        src={`http://localhost:4000/${src}`}
+        alt={`project-${i}`}
+        className="w-full h-56 sm:h-72 md:h-80 object-cover block"
+      />
+    ))}
+  </div>
+)}
 
                   {/* Body */}
                   <div style={{

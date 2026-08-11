@@ -8,6 +8,7 @@ import {
 } from '../../api/TeamContact.api';
 import { TeamContact } from '../../types';
 import contact_us from '../../assets/contact_us.webp';
+import Footer from '../../components/Footer';
 
 const ContactPage = () => {
   const role = sessionStorage.getItem('role') || 'visitor';
@@ -322,7 +323,9 @@ const ContactPage = () => {
           </div>
         </div>
       )}
+       <Footer />
     </div>
+    
   );
 };
 
