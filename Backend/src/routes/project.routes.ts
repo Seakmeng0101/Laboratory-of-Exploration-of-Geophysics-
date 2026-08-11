@@ -8,8 +8,8 @@ const router = Router();
 
 router.get('/',    ProjectController.getAllProjects);
 router.get('/:id', ProjectController.getProjectById);
-router.post('/',      authenticate, authorize(Role.ADMIN, Role.MODERATOR), uploadProject.single('image'), ProjectController.createProject);
-router.put('/:id',    authenticate, authorize(Role.ADMIN, Role.MODERATOR), uploadProject.single('image'), ProjectController.updateProject);
+router.post('/',      authenticate, authorize(Role.ADMIN, Role.MODERATOR), uploadProject.array('images', 10), ProjectController.createProject);
+router.put('/:id',    authenticate, authorize(Role.ADMIN, Role.MODERATOR), uploadProject.array('images', 10), ProjectController.updateProject);
 router.delete('/:id', authenticate, authorize(Role.ADMIN, Role.MODERATOR), ProjectController.deleteProject);
 
 export default router;
