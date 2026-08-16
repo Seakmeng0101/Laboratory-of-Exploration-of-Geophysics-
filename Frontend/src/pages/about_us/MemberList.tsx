@@ -41,7 +41,8 @@ const SkeletonCard = () => (
   </div>
 );
 
-const MemberList = ({ role, showModal, onModalClose }: Props) => {
+const MemberList = ({showModal, onModalClose }: Props) => {
+  const { canEdit, role } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(false);
   const [imgErrors, setImgErrors] = useState<Record<string | number, boolean>>({});
@@ -64,11 +65,6 @@ const MemberList = ({ role, showModal, onModalClose }: Props) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Member | null>(null);
 
-  // Auth state
-  const { isLoggedIn, canEdit } = useAuth();
-  if (!isLoggedIn) {
-  return <Navigate to="/login" replace />;
-}
 
 const fetchMembers = () => {
   setLoading(true);
@@ -196,18 +192,6 @@ const fetchMembers = () => {
       setDeletingId(null);
     }
   };
-
-  // Not logged in — show message
-  if (!isLoggedIn) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <svg className="w-16 h-16 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-        </svg>
-        <p className="text-gray-400 text-base font-medium">Please login to view members</p>
-      </div>
-    );
-  }
 
   return (
     <>

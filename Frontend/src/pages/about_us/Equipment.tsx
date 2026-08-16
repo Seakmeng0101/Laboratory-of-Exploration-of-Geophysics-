@@ -127,7 +127,7 @@ const EquipmentPage = () => {
 
       {/* Header */}
       <div className="text-center pt-12 pb-8 px-5">
-        <h1 className="text-3xl font-extrabold text-gray-800 mb-2">Equipment</h1>
+        <h1 className="font-display text-3xl font-medium">Equipment</h1>
         <p className="text-sm text-gray-400 max-w-xl mx-auto">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
         </p>

@@ -2,7 +2,21 @@ import axios from 'axios';
 
 const API = axios.create({ baseURL: 'http://localhost:4000/api' });
 
-const skipRoutes = ['/auth/login', '/auth/refresh', '/auth/verify-otp', '/auth/resend-otp', '/auth/forgot-password', '/auth/reset-password'];
+const skipRoutes = [
+  '/auth/login',
+  '/auth/refresh',
+  '/auth/verify-otp',
+  '/auth/resend-otp',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/members',
+  '/teams',
+  '/services',
+  '/projects',
+  '/equipments',
+  '/team-contacts',
+  '/contact',
+];
 
 API.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('accessToken');

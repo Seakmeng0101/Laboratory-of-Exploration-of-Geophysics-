@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import GlobalStyles from './components/GlobalStyles';
 import Home from './pages/home.pages';
 import AboutUs from './pages/about_us/team.abous_us';
 import Login from './pages/auth/login.auth';
@@ -11,6 +12,7 @@ import ServicesPage from './pages/services/Services';
 import ContactPage from './pages/Contacts/ContactPage';
 import TeamContactPage from './pages/Contacts/TeamContactPage';
 import ProjectPage from './pages/ProjectPage';
+
 // Only allows access if pendingEmail exists (set after login)
 const ProtectedOtp = () => {
   const pendingEmail = sessionStorage.getItem('pendingEmail');
@@ -19,37 +21,40 @@ const ProtectedOtp = () => {
 
 function App() {
   return (
-    <BrowserRouter
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
-      <Routes>
-        {/* Auth pages — no Navbar */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/verify-otp" element={<ProtectedOtp />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+    <>
+      <GlobalStyles />
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <Routes>
+          {/* Auth pages — no Navbar */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/verify-otp" element={<ProtectedOtp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Public pages — with Navbar */}
-        <Route path="/*" element={
-          <>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about/our-team" element={<AboutUs />} />
-              <Route path="/about/equipment" element={<EquipmentPage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/contact/messages" element={<Navigate to="/contact" replace />} />
-              <Route path="/contact/team" element={<Navigate to="/contact" replace />} />
-              <Route path="/projects" element={<ProjectPage />} />
-            </Routes>
-          </>
-        } />
-      </Routes>
-    </BrowserRouter>
+          {/* Public pages — with Navbar */}
+          <Route path="/*" element={
+            <>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about/our-team" element={<AboutUs />} />
+                <Route path="/about/equipment" element={<EquipmentPage />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/contact/messages" element={<Navigate to="/contact" replace />} />
+                <Route path="/contact/team" element={<Navigate to="/contact" replace />} />
+                <Route path="/projects" element={<ProjectPage />} />
+              </Routes>
+            </>
+          } />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

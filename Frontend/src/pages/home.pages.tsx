@@ -5,6 +5,10 @@ import mex1 from '../assets/mex1.jpg';
 import mex2 from '../assets/mex2.webp';
 import mex3 from '../assets/mex3.jpg';
 import Footer from '../components/Footer';
+import logo1 from '../assets/logo1.jpg';
+import logo2 from '../assets/logo2.jpg';
+import logo3 from '../assets/logo3.webp';
+import logo4 from '../assets/logo4.png';
 
 <Footer
   address="#244, Street 26, Khan Pou Senchey, Phnom Penh, Cambodia"
@@ -577,17 +581,38 @@ const ScopeOfService = () => (
 
 interface Client {
   name: string;
-  logo?: string; // pass an imported image here once you have real logo files
+  logo?: string;
+  url?: string;
 }
 
 const CLIENTS: Client[] = [
-  { name: 'ITC' },
-  { name: 'MPWT' },
-  { name: 'MME' },
-  { name: 'Royal Govt.' },
-  { name: 'Environment' },
-  { name: 'JICA' },
+  { name: 'ITC', logo: logo1 },
+  { name: 'MPWT', logo: logo2 },
+  { name: 'MME', logo: logo3 },
+  { name: 'Royal Govt.', logo: logo4 },
 ];
+
+const LogoBadge = ({ client }: { client: Client }) => {
+  const badge = (
+    <div className="shrink-0 w-36 h-36 rounded-full bg-white border border-[var(--line)] flex items-center justify-center overflow-hidden mx-5 transition-transform duration-500 ease-out hover:scale-110">
+      {client.logo ? (
+        <img src={client.logo} alt={client.name} className="w-full h-full object-cover" />
+      ) : (
+        <span className="font-mono text-[10px] text-[var(--ink-soft)] text-center px-1">
+          {client.name}
+        </span>
+      )}
+    </div>
+  );
+
+  if (!client.url) return badge;
+
+  return (
+    <a href={client.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${client.name} website`}>
+      {badge}
+    </a>
+  );
+};
 
 const OurClients = () => (
   <section className="bg-[var(--paper-dim)] py-14 px-4">
@@ -597,20 +622,13 @@ const OurClients = () => (
         ORGANIZATIONS WE HAVE WORKED WITH
       </p>
 
-      <div className="flex flex-wrap items-center justify-center gap-8">
-        {CLIENTS.map((client) => (
-          <Reveal key={client.name}>
-            <div className="w-16 h-16 rounded-full bg-white border border-[var(--line)] flex items-center justify-center overflow-hidden">
-              {client.logo ? (
-                <img src={client.logo} alt={client.name} className="w-full h-full object-cover" />
-              ) : (
-                <span className="font-mono text-[10px] text-[var(--ink-soft)] text-center px-1">
-                  {client.name}
-                </span>
-              )}
-            </div>
-          </Reveal>
-        ))}
+      {/* contained loop: constrained to this centered container, not the full browser width */}
+      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+          {[...CLIENTS, ...CLIENTS].map((client, i) => (
+            <LogoBadge key={`${client.name}-${i}`} client={client} />
+          ))}
+        </div>
       </div>
     </div>
   </section>

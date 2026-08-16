@@ -8,14 +8,19 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        ripple: {
-          from: { transform: 'scale(0)', opacity: '0.4' },
-          to:   { transform: 'scale(1)', opacity: '0' },
-        },
-      },
-      animation: {
-        ripple: 'ripple 0.6s linear forwards',
-      },
+  ripple: {
+    from: { transform: 'scale(0)', opacity: '0.4' },
+    to:   { transform: 'scale(1)', opacity: '0' },
+  },
+  marquee: {
+    '0%': { transform: 'translateX(0)' },
+    '100%': { transform: 'translateX(-50%)' },
+  },
+},
+animation: {
+  ripple: 'ripple 0.6s linear forwards',
+  marquee: 'marquee 18s linear infinite',
+},
     },
   },
   plugins: [

@@ -55,7 +55,7 @@ const NavItem = ({ label, path, items }: NavItemProps) => {
       <button
         onClick={() => setOpen((v) => !v)}
         className={`flex items-center gap-1 py-1.5 px-4 rounded-md w-full md:w-auto font-semibold text-sm transition-colors duration-150 ${
-          isActive 
+          isActive
             ? 'bg-blue-600 text-white'
             : 'text-gray-700 hover:bg-gray-100 hover:text-blue-900'
         }`}
@@ -94,6 +94,15 @@ const NavItem = ({ label, path, items }: NavItemProps) => {
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState('');
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setQuery('');
+    setSearchOpen(false);
+    setMobileOpen(false);
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
@@ -103,7 +112,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-3 w-[260px] -ml-10">
           <img src={logo} alt="ITC Logo" className="h-10 w-10 rounded-full border border-gray-200" />
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-bold text-blue-900">Exploration Geophysics Lab</span>
+            <span className="font-display text-sm font-medium text-blue-900">Exploration Geophysics Lab</span>
           </div>
         </Link>
 
@@ -112,15 +121,31 @@ const Navbar = () => {
           {NAV_ITEMS.map((item) => (
             <NavItem key={item.label} {...item} />
           ))}
-          <button
-            className="ml-2 p-1.5 text-gray-500 hover:text-blue-900 hover:bg-gray-100 rounded-md transition-colors"
-            aria-label="Search"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" />
-              <path strokeLinecap="round" d="M16.5 16.5l4 4" />
-            </svg>
-          </button>
+
+          {searchOpen ? (
+            <form onSubmit={handleSearchSubmit} className="flex items-center ml-2">
+              <input
+                autoFocus
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onBlur={() => { if (!query) setSearchOpen(false); }}
+                placeholder="Search..."
+                className="w-48 px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              />
+            </form>
+          ) : (
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="ml-2 p-1.5 text-gray-500 hover:text-blue-900 hover:bg-gray-100 rounded-md transition-colors"
+              aria-label="Search"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path strokeLinecap="round" d="M16.5 16.5l4 4" />
+              </svg>
+            </button>
+          )}
         </div>
 
         {/* Hamburger */}
@@ -144,6 +169,27 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
+
+          {/* Mobile search */}
+          <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-100">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search..."
+              className="flex-1 px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            />
+            <button
+              type="submit"
+              className="p-1.5 text-gray-500 hover:text-blue-900 hover:bg-gray-100 rounded-md transition-colors"
+              aria-label="Search"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path strokeLinecap="round" d="M16.5 16.5l4 4" />
+              </svg>
+            </button>
+          </form>
         </div>
 
       </div>

@@ -45,6 +45,8 @@ const AlertIcon = () => (
 );
 
 const TeamList = ({ showModal, onModalClose }: Props) => {
+  const { canEdit, role } = useAuth();
+  const isAdmin = role === 'admin'; 
   const [teams, setTeams]                     = useState<Team[]>([]);
   const [loading, setLoading]                 = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,10 +54,12 @@ const TeamList = ({ showModal, onModalClose }: Props) => {
   const [deletingId, setDeletingId]           = useState<string | null>(null);
   const [submitting, setSubmitting]           = useState(false);
   const [error, setError]                     = useState('');
-  const { canEdit, role } = useAuth();
+
 
   
-
+const [form, setForm] = useState({
+  name: '', email: '', password: '', confirmPassword: '', role: 'moderator'
+});
   const fetchTeams = () => {
     setLoading(true);
     getAllTeams()
@@ -64,7 +68,12 @@ const TeamList = ({ showModal, onModalClose }: Props) => {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { fetchTeams(); }, []);
+  useEffect(() => { 
+  const role = sessionStorage.getItem('role');
+  if (role === 'admin') {
+    fetchTeams(); 
+  }
+}, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));

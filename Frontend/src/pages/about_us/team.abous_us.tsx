@@ -194,7 +194,7 @@ const AboutUs = () => {
           }}
         />
         <div className="relative z-10">
-          <h1 className="text-4xl font-extrabold text-white leading-snug mb-4">
+          <h1 className="text-4xl font-display font-medium text-white leading-snug mb-4">
             We are the team who<br />involved in lab
           </h1>
           {/* <p className="text-sm text-white/50 max-w-xl mx-auto leading-relaxed">
@@ -203,54 +203,58 @@ const AboutUs = () => {
         </div>
       </div>
 
-      {/* Content */}
+      
 {/* Content */}
-<div className="flex items-center justify-between max-w-screen-xl mx-auto px-6 py-8">
-  <div className="flex gap-8">
-    <button
-      onClick={() => setActiveTab('member')}
-      className={`pb-3 text-xl font-bold border-b-4 -mb-0.5 transition-colors ${
-        activeTab === 'member'
-          ? 'border-cyan-500 text-cyan-500'
-          : 'border-transparent text-gray-400 hover:text-gray-600'
-      }`}
-    >
-      Member
-    </button>
-    {role === 'admin' && (
+<div className="max-w-screen-xl mx-auto px-6">
+  <div className="flex items-center justify-between border-b-2 border-gray-200 py-4">
+    <div className="flex gap-8">
       <button
-        onClick={() => setActiveTab('team')}
-        className={`pb-3 text-xl font-bold border-b-4 -mb-0.5 transition-colors ${
-          activeTab === 'team'
+        onClick={() => setActiveTab('member')}
+        className={`pb-3 text-xl font-bold border-b-4 -mb-3.5 transition-colors ${
+          activeTab === 'member'
             ? 'border-cyan-500 text-cyan-500'
             : 'border-transparent text-gray-400 hover:text-gray-600'
         }`}
       >
-        Team
+        Member
+      </button>
+      {role === 'admin' && (
+        <button
+          onClick={() => setActiveTab('team')}
+          className={`pb-3 text-xl font-bold border-b-4 -mb-3.5 transition-colors ${
+            activeTab === 'team'
+              ? 'border-cyan-500 text-cyan-500'
+              : 'border-transparent text-gray-400 hover:text-gray-600'
+          }`}
+        >
+          Team
+        </button>
+      )}
+    </div>
+
+    {canEdit && (
+      <button
+        onClick={() => {
+          if (activeTab === 'member') setShowAddMember(true);
+          if (activeTab === 'team') setShowAddTeam(true);
+        }}
+        className="px-6 py-2 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition"
+      >
+        {activeTab === 'member' ? '+ Add member' : '+ Add team'}
       </button>
     )}
   </div>
-
-  {(role === 'admin' || role === 'moderator') && (
-    <button
-  onClick={() => {
-    if (activeTab === 'member') setShowAddMember(true);
-    if (activeTab === 'team') setShowAddTeam(true);
-  }}
-  className="mb-2 px-6 py-2 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition"
->
-  {activeTab === 'member' ? '+ Add member' : '+ Add team'}
-</button>
-  )}
 </div>
 
 {/* Lists */}
-{activeTab === 'member' && (
-  <MemberList role={role} showModal={showAddMember} onModalClose={() => setShowAddMember(false)} />
-)}
-{activeTab === 'team' && role === 'admin' && (
-  <TeamList showModal={showAddTeam} onModalClose={() => setShowAddTeam(false)} />
-)}
+<div className="max-w-screen-xl mx-auto px-6 py-6">
+  {activeTab === 'member' && (
+    <MemberList role={role} showModal={showAddMember} onModalClose={() => setShowAddMember(false)} />
+  )}
+  {activeTab === 'team' && role === 'admin' && (
+    <TeamList showModal={showAddTeam} onModalClose={() => setShowAddTeam(false)} />
+  )}
+</div>
 
     </div>
     

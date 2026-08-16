@@ -236,11 +236,21 @@ const ProjectPage = () => {
                       <p style={{ fontSize: '15px', color: '#0891b2', margin: '0 0 12px' }}>
                         {item.company_title}
                       </p>
-                      <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '16px', color: '#6b7280' }}>
-                        {bullets.map((b, i) => (
-                          <li key={i} style={{ marginBottom: '4px' }}>{b.trim()}</li>
-                        ))}
-                      </ul>
+                      <ul style={{ margin: 0, padding: 0, listStyle: 'none', fontSize: '16px', color: '#6b7280' }}>
+  {bullets.map((b, i) => (
+    <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '6px' }}>
+      <span style={{
+        width: '6px',
+        height: '6px',
+        borderRadius: '50%',
+        backgroundColor: '#0b0b0b',
+        marginTop: '8px',
+        flexShrink: 0,
+      }} />
+      <span>{b.trim()}</span>
+    </li>
+  ))}
+</ul>
                       {item.link && (
                         <a href={item.link} target="_blank" rel="noreferrer"
                           style={{ fontSize: '14px', color: '#0891b2', display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '10px', textDecoration: 'none' }}>
