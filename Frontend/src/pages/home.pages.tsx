@@ -282,120 +282,120 @@ const OverviewSection = () => {
 /* Company structure org chart                                         */
 /* ------------------------------------------------------------------ */
 
-const ORG_CHART: OrgNode = {
-  title: 'Managing Director',
-  children: [
-    {
-      title: 'Technical Service Department',
-      children: [
-        { title: 'Geophysical Survey Team' },
-        { title: 'Groundwater Survey Team' },
-        { title: 'GIS & Remote Sensing' },
-        { title: 'Geological & Environmental Team' },
-      ],
-    },
-    { title: 'Business Development' },
-    { title: 'Finance and Admin' },
-  ],
-};
+// const ORG_CHART: OrgNode = {
+//   title: 'Managing Director',
+//   children: [
+//     {
+//       title: 'Technical Service Department',
+//       children: [
+//         { title: 'Geophysical Survey Team' },
+//         { title: 'Groundwater Survey Team' },
+//         { title: 'GIS & Remote Sensing' },
+//         { title: 'Geological & Environmental Team' },
+//       ],
+//     },
+//     { title: 'Business Development' },
+//     { title: 'Finance and Admin' },
+//   ],
+// };
 
-const NodeCard = ({ title }: { title: string }) => (
-  <div className="relative">
-    <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-lg bg-cyan-500" aria-hidden="true" />
-    <div className="relative bg-white border-2 border-cyan-500 rounded-lg px-4 py-3 text-center text-sm font-semibold text-gray-800 min-h-[64px] flex items-center justify-center">
-      {title}
-    </div>
-  </div>
-);
+// const NodeCard = ({ title }: { title: string }) => (
+//   <div className="relative">
+//     <div className="absolute inset-0 translate-x-1.5 translate-y-1.5 rounded-lg bg-cyan-500" aria-hidden="true" />
+//     <div className="relative bg-white border-2 border-cyan-500 rounded-lg px-4 py-3 text-center text-sm font-semibold text-gray-800 min-h-[64px] flex items-center justify-center">
+//       {title}
+//     </div>
+//   </div>
+// );
 
-const CompanyStructure = () => {
-  const departments = ORG_CHART.children ?? [];
-  const technical = departments.find(d => d.title === 'Technical Service Department');
-  const otherDepartments = departments.filter(d => d.title !== 'Technical Service Department');
-  const teams = technical?.children ?? [];
+// const CompanyStructure = () => {
+//   const departments = ORG_CHART.children ?? [];
+//   const technical = departments.find(d => d.title === 'Technical Service Department');
+//   const otherDepartments = departments.filter(d => d.title !== 'Technical Service Department');
+//   const teams = technical?.children ?? [];
 
-  return (
-    <section className="bg-white py-16 px-4">
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="font-display text-3xl font-medium mb-2">Lab Structure</h2>
-        </div>
+//   return (
+//     <section className="bg-white py-16 px-4">
+//       <div className="max-w-5xl mx-auto">
+//         <div className="text-center mb-10">
+//           <h2 className="font-display text-3xl font-medium mb-2">Lab Structure</h2>
+//         </div>
 
-        {/* Optional lab photo strip — remove if not needed here */}
-        {/* <img
-          src={Lab}
-          alt="Lab team in the field"
-          className="w-full h-48 sm:h-64 object-cover rounded-xl mb-14"
-        /> */}
+//         {/* Optional lab photo strip — remove if not needed here */}
+//         {/* <img
+//           src={Lab}
+//           alt="Lab team in the field"
+//           className="w-full h-48 sm:h-64 object-cover rounded-xl mb-14"
+//         /> */}
 
-        {/* Tier 1 — Managing Director */}
-        <div className="flex justify-center mb-10">
-          <div className="w-56">
-            <NodeCard title={ORG_CHART.title} />
-          </div>
-        </div>
+//         {/* Tier 1 — Managing Director */}
+//         <div className="flex justify-center mb-10">
+//           <div className="w-56">
+//             <NodeCard title={ORG_CHART.title} />
+//           </div>
+//         </div>
 
-        {/* Connector: MD down to departments row */}
-        <div className="flex justify-center">
-          <div className="w-px h-8 bg-gray-300" aria-hidden="true" />
-        </div>
+//         {/* Connector: MD down to departments row */}
+//         <div className="flex justify-center">
+//           <div className="w-px h-8 bg-gray-300" aria-hidden="true" />
+//         </div>
 
-        {/* Tier 2 — Departments */}
-        <div className="relative">
-          <div
-            className="hidden sm:block absolute top-0 left-[16.5%] right-[16.5%] h-px bg-gray-300"
-            aria-hidden="true"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 pt-0 sm:pt-8">
-            {technical && (
-              <div className="flex flex-col items-center">
-                <div className="hidden sm:block w-px h-8 bg-gray-300 -mt-8 mb-0" aria-hidden="true" />
-                <div className="w-full max-w-[220px]">
-                  <NodeCard title={technical.title} />
-                </div>
-              </div>
-            )}
-            {otherDepartments.map(dept => (
-              <div key={dept.title} className="flex flex-col items-center">
-                <div className="hidden sm:block w-px h-8 bg-gray-300 -mt-8 mb-0" aria-hidden="true" />
-                <div className="w-full max-w-[220px]">
-                  <NodeCard title={dept.title} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+//         {/* Tier 2 — Departments */}
+//         <div className="relative">
+//           <div
+//             className="hidden sm:block absolute top-0 left-[16.5%] right-[16.5%] h-px bg-gray-300"
+//             aria-hidden="true"
+//           />
+//           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 pt-0 sm:pt-8">
+//             {technical && (
+//               <div className="flex flex-col items-center">
+//                 <div className="hidden sm:block w-px h-8 bg-gray-300 -mt-8 mb-0" aria-hidden="true" />
+//                 <div className="w-full max-w-[220px]">
+//                   <NodeCard title={technical.title} />
+//                 </div>
+//               </div>
+//             )}
+//             {otherDepartments.map(dept => (
+//               <div key={dept.title} className="flex flex-col items-center">
+//                 <div className="hidden sm:block w-px h-8 bg-gray-300 -mt-8 mb-0" aria-hidden="true" />
+//                 <div className="w-full max-w-[220px]">
+//                   <NodeCard title={dept.title} />
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
 
-        {/* Connector: Technical Service Department down to teams row */}
-        {teams.length > 0 && (
-          <>
-            <div className="flex justify-start sm:justify-center mt-6">
-              <div className="w-px h-8 bg-gray-300 sm:ml-[16.6%]" aria-hidden="true" />
-            </div>
+//         {/* Connector: Technical Service Department down to teams row */}
+//         {teams.length > 0 && (
+//           <>
+//             <div className="flex justify-start sm:justify-center mt-6">
+//               <div className="w-px h-8 bg-gray-300 sm:ml-[16.6%]" aria-hidden="true" />
+//             </div>
 
-            {/* Tier 3 — Teams under Technical Service Department */}
-            <div className="relative">
-              <div
-                className="hidden sm:block absolute top-0 left-[calc(16.6%+1px)] right-[calc(50%+8.3%)] h-px bg-gray-300"
-                aria-hidden="true"
-              />
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 gap-y-8 pt-0 sm:pt-8 max-w-3xl sm:ml-0">
-                {teams.map(team => (
-                  <div key={team.title} className="flex flex-col items-center">
-                    <div className="hidden sm:block w-px h-8 bg-gray-300 -mt-8 mb-0" aria-hidden="true" />
-                    <div className="w-full">
-                      <NodeCard title={team.title} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </section>
-  );
-};
+//             {/* Tier 3 — Teams under Technical Service Department */}
+//             <div className="relative">
+//               <div
+//                 className="hidden sm:block absolute top-0 left-[calc(16.6%+1px)] right-[calc(50%+8.3%)] h-px bg-gray-300"
+//                 aria-hidden="true"
+//               />
+//               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 gap-y-8 pt-0 sm:pt-8 max-w-3xl sm:ml-0">
+//                 {teams.map(team => (
+//                   <div key={team.title} className="flex flex-col items-center">
+//                     <div className="hidden sm:block w-px h-8 bg-gray-300 -mt-8 mb-0" aria-hidden="true" />
+//                     <div className="w-full">
+//                       <NodeCard title={team.title} />
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </>
+//         )}
+//       </div>
+//     </section>
+//   );
+// };
 
 /* ------------------------------------------------------------------ */
 /* Business Divisions                                                  */
@@ -482,7 +482,7 @@ const DivisionCard = ({ division }: { division: Division }) => (
       ))}
     </ul>
 
-    <div>
+    {/* <div>
       <div className="flex items-center justify-between mb-1.5">
         <p className="font-mono text-[10px] tracking-widest text-[var(--ink-soft)]">
           REVENUE CONTRIBUTION
@@ -497,7 +497,7 @@ const DivisionCard = ({ division }: { division: Division }) => (
           style={{ width: `${division.revenue}%`, backgroundColor: division.accent }}
         />
       </div>
-    </div>
+    </div> */}
   </div>
 );
 
@@ -752,7 +752,7 @@ const Home = () => {
       <Carousel images={IMAGES} />
       <OverviewSection />
       <RecentNewsSection />
-      <CompanyStructure />
+      {/* <CompanyStructure /> */}
       <BusinessDivisions />
       <ScopeOfService />
       <OurClients />
