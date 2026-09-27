@@ -14,6 +14,7 @@ API.interceptors.response.use(
 );
 
 export const getAllProjects = () => API.get('/projects');
+export const getProjectById = (id: string) => API.get(`/projects/${id}`);
 export const createProject = (data: FormData) => API.post('/projects', data);
 export const updateProject = (id: string, data: FormData) => API.put(`/projects/${id}`, data);
 export const deleteProject = (id: string) => API.delete(`/projects/${id}`);

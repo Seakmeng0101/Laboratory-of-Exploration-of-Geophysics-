@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { getAllProjects } from '../api/project.api';
 import { Project } from '../types';
 import mex1 from '../assets/mex1.jpg';
-import mex2 from '../assets/mex2.webp';
+import mex2 from '../assets/mex2.jpg';
 import mex3 from '../assets/mex3.jpg';
 import Footer from '../components/Footer';
 import logo1 from '../assets/logo1.jpg';
@@ -671,19 +672,27 @@ const NewsCard = ({ item }: { item: Project }) => {
         <p className="text-sm text-[var(--ink-soft)] flex-1 mb-5 line-clamp-4">
           {bullets[0]}
         </p>
-        <a
-          href={item.link || '/projects'}
-          target={item.link ? '_blank' : undefined}
-          rel={item.link ? 'noreferrer' : undefined}
-          className="inline-block self-start text-sm font-medium text-[var(--ink)] border-b border-[var(--ink)] pb-0.5 hover:text-[var(--moss)] hover:border-[var(--moss)] transition-colors"
-        >
-          Learn more →
-        </a>
+        {item.link ? (
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block self-start text-sm font-medium text-[var(--ink)] border-b border-[var(--ink)] pb-0.5 hover:text-[var(--moss)] hover:border-[var(--moss)] transition-colors"
+          >
+            Learn more →
+          </a>
+        ) : (
+          <Link
+            to={`/projects/${item.id}`}
+            className="inline-block self-start text-sm font-medium text-[var(--ink)] border-b border-[var(--ink)] pb-0.5 hover:text-[var(--moss)] hover:border-[var(--moss)] transition-colors"
+          >
+            Learn more →
+          </Link>
+        )}
       </div>
     </div>
   );
 };
-
 const RecentNewsSection = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
