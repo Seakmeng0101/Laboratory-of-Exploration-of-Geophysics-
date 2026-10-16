@@ -30,7 +30,7 @@ const ProjectDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-16 animate-pulse">
+      <div className="w-full px-6 py-16 animate-pulse">
         <div className="h-80 bg-gray-100 rounded-xl mb-6" />
         <div className="h-6 w-2/3 bg-gray-100 rounded-full mb-3" />
         <div className="h-4 w-1/3 bg-gray-100 rounded-full mb-6" />
@@ -42,7 +42,7 @@ const ProjectDetailPage = () => {
 
   if (!project) {
     return (
-      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
+      <div className="w-full px-6 py-16 text-center">
         <p className="text-gray-400 mb-4">Project not found.</p>
         <Link to="/projects" className="text-cyan-600 text-sm font-medium">
           Back to all projects
@@ -55,20 +55,24 @@ const ProjectDetailPage = () => {
   const imgs = project.images || [];
 
   return (
-    <div className="bg-white min-h-screen">
-      <div className="max-w-3xl mx-auto px-6 py-12">
+    <div className="bg-white min-h-screen w-full">
+      <div className="w-full px-6 py-12">
         <Link to="/projects" className="text-sm text-cyan-600 mb-6 inline-block">
           Back to all projects
         </Link>
 
         {imgs.length > 0 && (
-          <div className={imgs.length === 1 ? 'grid gap-1 mb-8 grid-cols-1' : 'grid gap-1 mb-8 grid-cols-2'}>
+          <div
+            className={`grid gap-1 mb-8 ${
+              imgs.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'
+            }`}
+          >
             {imgs.slice(0, 4).map((src, i) => (
               <img
                 key={i}
                 src={'http://localhost:4000/' + src}
                 alt={project.title + '-' + i}
-                className="w-full h-64 object-cover rounded-lg"
+                className="w-full h-64 sm:h-72 md:h-80 object-cover rounded-lg"
               />
             ))}
           </div>

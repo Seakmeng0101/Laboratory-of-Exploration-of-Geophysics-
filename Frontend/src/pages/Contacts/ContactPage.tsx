@@ -13,6 +13,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 const ContactPage = () => {
   const { canEdit, role } = useAuth();
+  const isAdmin = role === 'admin'; // adjust to match your role value, e.g. 'ADMIN' or 'super_admin'
 
   const [tab, setTab] = useState<'message' | 'team'>('message');
 
@@ -61,7 +62,15 @@ const ContactPage = () => {
       .finally(() => setLoadingContacts(false));
   };
 
-  useEffect(() => { fetchContacts(); }, []);
+  // Only admins load team contacts; everyone else is kept on the Message tab
+  useEffect(() => {
+    if (isAdmin) {
+      fetchContacts();
+    } else {
+      setTab('message');
+      setContacts([]);
+    }
+  }, [isAdmin]);
 
   const emptyForm = { name: '', faculty: '', institute: '', address: '', email: '', tel: '' };
 
@@ -146,14 +155,16 @@ const ContactPage = () => {
       <div className="px-6 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex gap-6">
-            {(['message', 'team'] as const).map(t => (
-              <button key={t} onClick={() => setTab(t)}
-                className={`py-4 text-base font-bold border-b-2 transition ${tab === t ? 'border-cyan-500 text-cyan-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
-                {t === 'message' ? 'Message' : 'Team Contacts'}
-              </button>
-            ))}
+            {(['message', 'team'] as const)
+              .filter(t => t === 'message' || isAdmin)
+              .map(t => (
+                <button key={t} onClick={() => setTab(t)}
+                  className={`py-4 text-base font-bold border-b-2 transition ${tab === t ? 'border-cyan-500 text-cyan-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+                  {t === 'message' ? 'Message' : 'Team Contacts'}
+                </button>
+              ))}
           </div>
-          {tab === 'team' && canEdit && (
+          {tab === 'team' && isAdmin && canEdit && (
             <button onClick={openAddModal} className="px-6 py-2 text-sm font-semibold text-white bg-cyan-500 rounded-full hover:bg-cyan-600 transition">
               Add New
             </button>
@@ -195,8 +206,8 @@ const ContactPage = () => {
           </div>
         )}
 
-        {/* ── Team Contacts Tab ── */}
-        {tab === 'team' && (
+        {/* ── Team Contacts Tab (admin only) ── */}
+        {tab === 'team' && isAdmin && (
           <div className="space-y-4">
             {loadingContacts && (
               <div className="space-y-4">
@@ -262,7 +273,7 @@ const ContactPage = () => {
       </div>
 
       {/* Add/Edit Modal */}
-      {showModal && (
+      {showModal && isAdmin && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={handleClose}>
           <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
@@ -323,9 +334,8 @@ const ContactPage = () => {
           </div>
         </div>
       )}
-       <Footer />
+      <Footer />
     </div>
-    
   );
 };
 

@@ -21,6 +21,7 @@ const NAV_ITEMS: NavItemProps[] = [
     items: [
       { label: 'Our team', path: '/about/our-team' },
       { label: 'Equipment', path: '/about/equipment' },
+      { label: 'Vision & Mission', path: '/about/vision-mission' },
     ],
   },
   { label: 'Services', path: '/services' },

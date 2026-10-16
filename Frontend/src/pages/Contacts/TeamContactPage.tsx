@@ -9,7 +9,7 @@ import { TeamContact } from '../../types';
 import { useAuth } from '../../hooks/useAuth';
 const TeamContactPage = () => {
   const { canEdit, role } = useAuth();
-
+  const isAdmin = role === 'admin';
   const [contacts, setContacts] = useState<TeamContact[]>([]);
   const [loadingContacts, setLoadingContacts] = useState(false);
 

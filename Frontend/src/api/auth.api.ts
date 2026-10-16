@@ -1,14 +1,21 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:4000/api' });
+const API_URL = 'http://localhost:4000/api';
 
-const skipRoutes = [
+export const API = axios.create({ baseURL: API_URL });
+
+// Auth routes: never refresh or redirect for these
+const authRoutes = [
   '/auth/login',
   '/auth/refresh',
   '/auth/verify-otp',
   '/auth/resend-otp',
   '/auth/forgot-password',
   '/auth/reset-password',
+];
+
+// Public routes: visitors can READ them without login (GET only)
+const publicRoutes = [
   '/members',
   '/teams',
   '/services',
@@ -17,6 +24,11 @@ const skipRoutes = [
   '/team-contacts',
   '/contact',
 ];
+
+const goToLogin = () => {
+  sessionStorage.clear();
+  window.location.href = '/login';
+};
 
 API.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('accessToken');
@@ -28,29 +40,37 @@ API.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    const isSkipped = skipRoutes.some(route => originalRequest.url?.includes(route));
+    if (!originalRequest) return Promise.reject(error);
+
+    const url: string = originalRequest.url || '';
+    const isGet = originalRequest.method?.toLowerCase() === 'get';
+    const isSkipped =
+      authRoutes.some((route) => url.includes(route)) ||
+      (isGet && publicRoutes.some((route) => url.includes(route)));
 
     if (error.response?.status === 401 && !originalRequest._retry && !isSkipped) {
       originalRequest._retry = true;
       try {
         const refreshToken = sessionStorage.getItem('refreshToken');
         if (!refreshToken) {
-          sessionStorage.clear();
-          window.location.href = '/login';
+          goToLogin();
           return Promise.reject(error);
         }
-        const res = await axios.post('http://localhost:4000/api/auth/refresh', { refreshToken });
+
+        const res = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
         const { accessToken, refreshToken: newRefreshToken } = res.data;
+
         sessionStorage.setItem('accessToken', accessToken);
         sessionStorage.setItem('refreshToken', newRefreshToken);
+
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return API(originalRequest);
       } catch (refreshError) {
-        sessionStorage.clear();
-        window.location.href = '/login';
+        goToLogin();
         return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
@@ -64,8 +84,7 @@ export const verifyOtp = (otp: string) =>
 export const logout = (refreshToken: string) =>
   API.post('/auth/logout', { refreshToken });
 
-export const getMe = () =>
-  API.get('/auth/me');
+export const getMe = () => API.get('/auth/me');
 
 export const forgotPassword = (email: string) =>
   API.post('/auth/forgot-password', { email });

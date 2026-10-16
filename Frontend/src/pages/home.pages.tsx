@@ -171,7 +171,7 @@ const Carousel = ({ images, intervalMs = 3800, autoPlay = true }: CarouselProps)
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
       role="region"
-      aria-label="Field documentation carousel"
+
     >
       <div className="relative h-72 overflow-hidden md:h-[560px]">
         {images.map((img, index) => (
@@ -191,9 +191,7 @@ const Carousel = ({ images, intervalMs = 3800, autoPlay = true }: CarouselProps)
           </div>
         ))}
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)]/60 via-transparent to-transparent z-20 pointer-events-none" />
-        <p className="absolute bottom-6 left-6 z-30 font-mono text-[11px] tracking-widest text-[var(--paper)]/80">
-          FIELD DOCUMENTATION — {String(current + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
-        </p>
+        
       </div>
 
       <button
@@ -242,22 +240,19 @@ const Carousel = ({ images, intervalMs = 3800, autoPlay = true }: CarouselProps)
 
 const OverviewSection = () => {
   return (
-    <section className="max-w-6xl mx-auto px-4 pt-6 pb-14 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <section className="max-w-6xl mx-auto px-4 pt-6 pb-14 grid grid-cols-1">
       <Reveal>
         <div className="h-full bg-[var(--paper-dim)] border-l-2 border-emerald-800 rounded-r-xl p-7">
-          <p className="font-mono text-[11px] tracking-widest text-[var(--ink-soft)] mb-2">OVERVIEW</p>
-          <h2 className="font-display text-2xl font-medium mb-3">Lab Overview</h2>
+          {/* <p className="font-mono text-[11px] tracking-widest text-[var(--ink-soft)] mb-2">OVERVIEW</p> */}
+          <h2 className="font-display text-2xl font-medium mb-3 text-center">WHO WE ARE</h2>
           <p className="text-[var(--ink-soft)] leading-relaxed">
-            The company will leverage advanced geophysical technologies,
-            drone-based surveying, AI-assisted data analytics, and local
-            scientific expertise to reduce exploration risk and improve
-            decision-making for government agencies, mining companies,
-            engineering firms, and development partners.
+            Exploration Geophysics Lab is a Cambodian company based in Phnom Penh. Our mission is to leverage advanced geophysical technologies—together with drone surveying and AI-assisted data analytics—supported by local scientific expertise, to help reduce exploration risk and improve decision-making for government agencies, mining companies, engineering firms, and development partners. 
+
           </p>
         </div>
       </Reveal>
 
-      <Reveal>
+      {/* <Reveal>
         <div className="h-full bg-[var(--paper-dim)] border-l-2 border-slate-600 rounded-r-xl p-7">
           <p className="font-mono text-[11px] tracking-widest text-[var(--ink-soft)] mb-2">VISION &amp; MISSION</p>
           <h2 className="font-display text-2xl font-medium mb-2">Vision</h2>
@@ -274,7 +269,7 @@ const OverviewSection = () => {
             beyond.
           </p>
         </div>
-      </Reveal>
+      </Reveal> */}
     </section>
   );
 };
