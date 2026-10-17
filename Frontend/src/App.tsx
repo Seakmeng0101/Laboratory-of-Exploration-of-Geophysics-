@@ -16,6 +16,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import { getMe } from './api/auth.api';
 import VisionMissionPage from './pages/about_us/VisionMissionPage';
 
+
 // Only allows access if pendingEmail exists (set after login)
 const ProtectedOtp = () => {
   const pendingEmail = sessionStorage.getItem('pendingEmail');

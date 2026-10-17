@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllProjects } from '../api/project.api';
 import { Project } from '../types';
+import { serviceUrl } from '../components/divisions';
 import mex1 from '../assets/mex1.jpg';
 import mex2 from '../assets/mex2.jpg';
 import mex3 from '../assets/mex3.jpg';
@@ -468,12 +469,17 @@ const DivisionCard = ({ division }: { division: Division }) => (
     </p>
     <ul className="space-y-1.5 mb-5 flex-1">
       {division.services.map((service) => (
-        <li key={service} className="flex items-start gap-2 text-sm text-[var(--ink-soft)]">
-          <span
-            className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"
-            style={{ backgroundColor: division.accent }}
-          />
-          {service}
+        <li key={service}>
+          <Link
+            to={serviceUrl(service)}
+            className="group flex items-start gap-2 text-sm text-[var(--ink-soft)] hover:text-[var(--moss)] transition-colors"
+          >
+            <span
+              className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"
+              style={{ backgroundColor: division.accent }}
+            />
+            <span className="border-b border-transparent group-hover:border-[var(--moss)]">{service}</span>
+          </Link>
         </li>
       ))}
     </ul>
