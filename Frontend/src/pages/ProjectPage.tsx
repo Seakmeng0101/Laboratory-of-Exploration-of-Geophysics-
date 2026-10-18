@@ -140,9 +140,11 @@ const ProjectPage = () => {
       {/* Header */}
       <div className="text-center pt-12 pb-8 px-5">
         <h1 className="text-3xl font-extrabold text-gray-800 mb-2">Project</h1>
-        <p className="text-sm text-gray-400 max-w-xl mx-auto">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-        </p>
+        <p className="text-base text-gray-400 w-full leading-relaxed px-6">
+    Explore our projects to discover the work we do, the solutions we deliver,
+    and the expertise we bring to every challenge. Each project reflects our
+    commitment to quality, innovation, and reliable results.
+  </p>
       </div>
 
       <div className="mx-auto px-6 pb-16">

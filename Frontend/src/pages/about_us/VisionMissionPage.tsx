@@ -145,12 +145,12 @@ const VisionMissionPage = () => (
     </section>
 
     <Footer
-      address="#244, Street 26, Khan Pou Senchey, Phnom Penh, Cambodia"
-      phone="088 78905647"
-      email="soemseakmeng@gmail.com"
-      facebookUrl="https://facebook.com/yourpage"
-      telegramUrl="https://t.me/yourpage"
-      linkedInUrl="https://linkedin.com/company/yourpage"
+      address="Room 405I, building I, Institute of technology of Cambodia,  Russian Federation Boulevard, Phnom Penh, Cambodia"
+      phone="+855 87550501 & +855 85818336"
+      email="leg.ggg.itc@gmail.com"
+      facebookUrl="https://www.facebook.com/share/1C49f1S1tz/"
+      telegramUrl="https://t.me/MuoyYiGeophysicist"
+      linkedInUrl="https://www.linkedin.com/company/laboratory-of-exploration-geophysics-ggg-itc/"
     />
   </div>
 );

@@ -128,8 +128,8 @@ const EquipmentPage = () => {
       {/* Header */}
       <div className="text-center pt-12 pb-8 px-5">
         <h1 className="font-display text-3xl font-medium">Equipment</h1>
-        <p className="text-sm text-gray-400 max-w-xl mx-auto">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        <p className="text-base text-gray-400 w-full leading-relaxed px-6">
+          Discover the equipment we use to deliver accurate and reliable results. Each item lists its model, capacity, and a link to the full product details.
         </p>
       </div>
 
