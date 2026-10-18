@@ -15,7 +15,7 @@ export async function getTeamContactById(id: string) {
   return rows[0] ?? null;
 }
 
-export async function createTeamContact(name: string, faculty: string, institute: string, address: string, email: string, tel: string, image: string | null) {
+export async function createTeamContact(name: string, faculty: string, institute: string, address: string | null, email: string, tel: string, image: string | null) {
   await pool.execute(
     `INSERT INTO team_contacts (name, faculty, institute, address, email, tel, image) VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [name, faculty, institute, address, email, tel, image],
@@ -26,7 +26,7 @@ export async function createTeamContact(name: string, faculty: string, institute
   return rows[0];
 }
 
-export async function updateTeamContact(id: string, name: string, faculty: string, institute: string, address: string, email: string, tel: string, image: string | null) {
+export async function updateTeamContact(id: string, name: string, faculty: string, institute: string, address : string | null, email: string, tel: string, image: string | null) {
   await pool.execute(
     `UPDATE team_contacts SET name = ?, faculty = ?, institute = ?, address = ?, email = ?, tel = ?, image = ? WHERE id = ?`,
     [name, faculty, institute, address, email, tel, image, id],

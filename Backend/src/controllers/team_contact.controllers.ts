@@ -22,12 +22,12 @@ export async function getTeamContactById(req: AuthRequest, res: Response, next: 
 export async function createTeamContact(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const { name, faculty, institute, address, email, tel } = req.body;
-    if (!name || !faculty || !institute || !address || !email || !tel) {
-      res.status(400).json({ message: 'name, faculty, institute, address, email and tel are required' });
+    if (!name || !faculty || !institute || !email || !tel) {
+      res.status(400).json({ message: 'name, faculty, institute, email and tel are required' });
       return;
     }
     const image = req.file ? `uploads/team_contacts/${req.file.filename}` : null;
-    const teamContact = await TeamContactModel.createTeamContact(name, faculty, institute, address, email, tel, image);
+    const teamContact = await TeamContactModel.createTeamContact(name, faculty, institute, address || null, email, tel, image);
     res.status(201).json({ message: 'Team contact created successfully', teamContact });
   } catch (err) { next(err); }
 }

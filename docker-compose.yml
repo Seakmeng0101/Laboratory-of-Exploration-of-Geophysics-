@@ -35,9 +35,9 @@ services:
       JWT_ACCESS_SECRET: your_access_secret
       JWT_REFRESH_SECRET: your_refresh_secret
       NODE_ENV: development
-      GMAIL_USER: soemseakmeng2@gmail.com
-      GMAIL_PASSWORD: fxzi vdya vjdv lbey
-      ADMIN_EMAIL: soemseakmeng2@gmail.com
+      GMAIL_USER: leg.ggg.itc@gmail.com
+      GMAIL_PASSWORD: idub urtj qihe gnki
+      ADMIN_EMAIL: leg.ggg.itc@gmail.com
     depends_on:
       db:
         condition: service_healthy

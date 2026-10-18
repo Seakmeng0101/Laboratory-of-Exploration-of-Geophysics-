@@ -7,9 +7,20 @@ import {
 } from '../../api/TeamContact.api';
 import { TeamContact } from '../../types';
 import { useAuth } from '../../hooks/useAuth';
+
+const emptyForm = { name: '', faculty: '', institute: '', address: '', email: '', tel: '' };
+
+const formFields = [
+  { name: 'name', label: 'Name', required: true },
+  { name: 'faculty', label: 'Faculty', required: true },
+  { name: 'institute', label: 'Institute', required: true },
+  { name: 'address', label: 'Address', required: false },
+  { name: 'email', label: 'Email', required: true },
+  { name: 'tel', label: 'Tel / Telegram', required: true },
+];
+
 const TeamContactPage = () => {
-  const { canEdit, role } = useAuth();
-  const isAdmin = role === 'admin';
+  const { canEdit } = useAuth();
   const [contacts, setContacts] = useState<TeamContact[]>([]);
   const [loadingContacts, setLoadingContacts] = useState(false);
 
@@ -17,7 +28,7 @@ const TeamContactPage = () => {
   const [editingItem, setEditingItem] = useState<TeamContact | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', faculty: '', institute: '', address: '', email: '', tel: '' });
+  const [form, setForm] = useState(emptyForm);
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -31,8 +42,6 @@ const TeamContactPage = () => {
 
   useEffect(() => { fetchContacts(); }, []);
 
-  const emptyForm = { name: '', faculty: '', institute: '', address: '', email: '', tel: '' };
-
   const openAddModal = () => {
     setEditingItem(null);
     setForm(emptyForm);
@@ -44,7 +53,14 @@ const TeamContactPage = () => {
 
   const openEditModal = (item: TeamContact) => {
     setEditingItem(item);
-    setForm({ name: item.name, faculty: item.faculty, institute: item.institute, address: item.address, email: item.email, tel: item.tel });
+    setForm({
+      name: item.name,
+      faculty: item.faculty,
+      institute: item.institute,
+      address: item.address ?? '',
+      email: item.email,
+      tel: item.tel,
+    });
     setPreview(item.image ? `http://localhost:4000/${item.image}` : null);
     setImage(null);
     setError('');
@@ -71,26 +87,35 @@ const TeamContactPage = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSubmitting(true);
-    try {
-      const formData = new FormData();
-      Object.entries(form).forEach(([k, v]) => formData.append(k, v));
-      if (image) formData.append('image', image);
-      if (editingItem) {
-        await updateTeamContact(editingItem.id, formData);
-      } else {
-        await createTeamContact(formData);
-      }
-      handleClose();
-      fetchContacts();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to save contact.');
-    } finally {
-      setSubmitting(false);
+  e.preventDefault();
+  setError('');
+
+  const missing = formFields.filter(
+    f => f.required && !form[f.name as keyof typeof form].trim()
+  );
+  if (missing.length > 0) {
+    setError(`Please fill in: ${missing.map(f => f.label).join(', ')}`);
+    return;
+  }
+
+  setSubmitting(true);
+  try {
+    const formData = new FormData();
+    Object.entries(form).forEach(([k, v]) => formData.append(k, v));
+    if (image) formData.append('image', image);
+    if (editingItem) {
+      await updateTeamContact(editingItem.id, formData);
+    } else {
+      await createTeamContact(formData);
     }
-  };
+    handleClose();
+    fetchContacts();
+  } catch (err: any) {
+    setError(err.response?.data?.message || 'Failed to save contact.');
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   const handleDelete = async (item: TeamContact) => {
     if (!window.confirm(`Delete "${item.name}"? This cannot be undone.`)) return;
@@ -162,7 +187,7 @@ const TeamContactPage = () => {
                   <p className="text-base font-extrabold text-gray-800 mb-1">{item.name}</p>
                   <p className="text-gray-600">{item.faculty}</p>
                   <p className="text-gray-600">{item.institute}</p>
-                  <p className="text-gray-600">{item.address}</p>
+                  {item.address && <p className="text-gray-600">{item.address}</p>}
                   <p className="text-gray-600">
                     Email:{' '}
                     <a href={`mailto:${item.email}`} className="text-cyan-500 hover:text-cyan-600">
@@ -206,7 +231,7 @@ const TeamContactPage = () => {
                 </svg>
               </button>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
               <div className="px-6 py-5 space-y-4">
                 <div className="flex flex-col items-center gap-2">
                   <div className="w-24 h-28 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden cursor-pointer hover:border-cyan-400 transition"
@@ -220,26 +245,24 @@ const TeamContactPage = () => {
                   <input id="contact-image-upload" type="file" accept="image/*" className="hidden" onChange={handleImage} />
                   <p className="text-xs text-gray-400">Click to upload photo</p>
                 </div>
-                {[
-                  { name: 'name', label: 'Name' },
-                  { name: 'faculty', label: 'Faculty' },
-                  { name: 'institute', label: 'Institute' },
-                  { name: 'address', label: 'Address' },
-                  { name: 'email', label: 'Email' },
-                  { name: 'tel', label: 'Tel / Telegram' },
-                ].map(field => (
+
+                {formFields.map(field => (
                   <div key={field.name}>
-                    <label className="block mb-1.5 text-sm font-medium text-gray-700">{field.label}</label>
+                    <label className="block mb-1.5 text-sm font-medium text-gray-700">
+                      {field.label}
+                      {!field.required && <span className="text-gray-400 font-normal"> (optional)</span>}
+                    </label>
                     <input
                       type={field.name === 'email' ? 'email' : 'text'}
                       name={field.name}
                       value={form[field.name as keyof typeof form]}
                       onChange={handleChange}
-                      required
+                      required={field.required}
                       className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-300"
                     />
                   </div>
                 ))}
+
                 {error && <p className="text-sm text-red-500 bg-red-50 px-4 py-2.5 rounded-lg">{error}</p>}
               </div>
               <div className="flex items-center gap-3 px-6 py-4 border-t border-gray-200">

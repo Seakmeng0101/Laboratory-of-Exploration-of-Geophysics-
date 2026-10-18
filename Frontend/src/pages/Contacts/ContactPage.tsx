@@ -11,6 +11,17 @@ import contact_us from '../../assets/contact_us.webp';
 import Footer from '../../components/Footer';
 import { useAuth } from '../../hooks/useAuth';
 
+const emptyForm = { name: '', faculty: '', institute: '', address: '', email: '', tel: '' };
+
+const formFields = [
+  { name: 'name', label: 'Name', required: true },
+  { name: 'faculty', label: 'Faculty', required: true },
+  { name: 'institute', label: 'Institute', required: true },
+  { name: 'address', label: 'Address', required: false },
+  { name: 'email', label: 'Email', required: true },
+  { name: 'tel', label: 'Tel / Telegram', required: true },
+];
+
 const ContactPage = () => {
   const { canEdit, role } = useAuth();
   const isAdmin = role === 'admin'; // adjust to match your role value, e.g. 'ADMIN' or 'super_admin'
@@ -50,7 +61,7 @@ const ContactPage = () => {
   const [editingItem, setEditingItem] = useState<TeamContact | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', faculty: '', institute: '', address: '', email: '', tel: '' });
+  const [form, setForm] = useState(emptyForm);
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -72,8 +83,6 @@ const ContactPage = () => {
     }
   }, [isAdmin]);
 
-  const emptyForm = { name: '', faculty: '', institute: '', address: '', email: '', tel: '' };
-
   const openAddModal = () => {
     setEditingItem(null);
     setForm(emptyForm);
@@ -85,7 +94,14 @@ const ContactPage = () => {
 
   const openEditModal = (item: TeamContact) => {
     setEditingItem(item);
-    setForm({ name: item.name, faculty: item.faculty, institute: item.institute, address: item.address, email: item.email, tel: item.tel });
+    setForm({
+      name: item.name,
+      faculty: item.faculty,
+      institute: item.institute,
+      address: item.address ?? '',
+      email: item.email,
+      tel: item.tel,
+    });
     setPreview(item.image ? `http://localhost:4000/${item.image}` : null);
     setImage(null);
     setError('');
@@ -241,7 +257,7 @@ const ContactPage = () => {
                       <p className="text-base font-extrabold text-gray-800 mb-1">{item.name}</p>
                       <p className="text-gray-600">{item.faculty}</p>
                       <p className="text-gray-600">{item.institute}</p>
-                      <p className="text-gray-600">{item.address}</p>
+                      {item.address && <p className="text-gray-600">{item.address}</p>}
                       <p className="text-gray-600">
                         Email:{' '}
                         <a href={`mailto:${item.email}`} className="text-cyan-500 hover:text-cyan-600">{item.email}</a>
@@ -298,26 +314,24 @@ const ContactPage = () => {
                   <input id="contact-image-upload" type="file" accept="image/*" className="hidden" onChange={handleImage} />
                   <p className="text-xs text-gray-400">Click to upload photo</p>
                 </div>
-                {[
-                  { name: 'name', label: 'Name' },
-                  { name: 'faculty', label: 'Faculty' },
-                  { name: 'institute', label: 'Institute' },
-                  { name: 'address', label: 'Address' },
-                  { name: 'email', label: 'Email' },
-                  { name: 'tel', label: 'Tel / Telegram' },
-                ].map(field => (
+
+                {formFields.map(field => (
                   <div key={field.name}>
-                    <label className="block mb-1.5 text-sm font-medium text-gray-700">{field.label}</label>
+                    <label className="block mb-1.5 text-sm font-medium text-gray-700">
+                      {field.label}
+                      {!field.required && <span className="text-gray-400 font-normal"> (optional)</span>}
+                    </label>
                     <input
                       type={field.name === 'email' ? 'email' : 'text'}
                       name={field.name}
                       value={form[field.name as keyof typeof form]}
                       onChange={handleChange}
-                      required
+                      required={field.required}
                       className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-300"
                     />
                   </div>
                 ))}
+
                 {error && <p className="text-sm text-red-500 bg-red-50 px-4 py-2.5 rounded-lg">{error}</p>}
               </div>
               <div className="flex items-center gap-3 px-6 py-4 border-t border-gray-200">

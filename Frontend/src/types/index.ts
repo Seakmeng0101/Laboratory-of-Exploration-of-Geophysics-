@@ -48,7 +48,7 @@ export interface TeamContact {
   name: string;
   faculty: string;
   institute: string;
-  address: string;
+  address: string | null;
   email: string;
   tel: string;
   image: string | null;
